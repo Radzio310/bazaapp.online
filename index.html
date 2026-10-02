@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pl" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Stare linki (#privacyModal, #termsModal) prowadzą do osobnych dokumentów.
+    (function () {
+      var map = { "#privacyModal": "/polityka-prywatnosci/", "#termsModal": "/warunki-uzytkowania/" };
+      function go() { var t = map[location.hash]; if (t) location.replace(t); }
+      go();
+      window.addEventListener("hashchange", go);
+      document.documentElement.classList.remove("no-js");
+      document.documentElement.classList.add("js");
+      try { if (sessionStorage.getItem("baza-intro")) document.documentElement.classList.add("intro-seen"); } catch (e) {}
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>BAZA - aplikacja dla sędziów piłki ręcznej</title>
+  <meta name="description" content="BAZA to niezbędnik sędziego piłki ręcznej: mecze z baza.zprp.pl, protokół elektroniczny ProEl, przepisy i 432 pytania, oceny, statystyki, ryczałty, hale i panel okręgu. Bezpłatnie na Androida i iOS." />
+  <meta name="theme-color" content="#0A0706" />
+  <meta name="google-site-verification" content="3Hm_tgsXL68du5bJnYrEejAxKpxNztNAMtk0Eb_0nsA" />
+  <link rel="canonical" href="https://bazaapp.online/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pl_PL" />
+  <meta property="og:title" content="BAZA - cześć, sędzio." />
+  <meta property="og:description" content="Mecze z ZPRP, protokół ProEl, przepisy, ryczałty i Bazuś. Wszystko, czego sędzia potrzebuje przed meczem i po." />
+  <meta property="og:url" content="https://bazaapp.online/" />
+  <meta property="og:image" content="https://bazaapp.online/Grafiki/site/logo.png" />
+  <link rel="icon" href="/Grafiki/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/Grafiki/site/logo-256.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Manrope:wght@400;500;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="preload" as="font" href="/site/fonts/fontastique-pl.woff2" type="font/woff2" crossorigin />
+  <link rel="preload" as="image" href="/Grafiki/site/logo.webp" type="image/webp" />
+  <link rel="stylesheet" href="/site/site.css?v=20261002g" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "BAZA",
+    "alternateName": "BAZA App",
+    "operatingSystem": "Android, iOS",
+    "applicationCategory": "SportsApplication",
+    "inLanguage": "pl",
+    "description": "Niezbędnik sędziego piłki ręcznej: mecze z baza.zprp.pl, protokół elektroniczny ProEl, przepisy i pytania, oceny, statystyki, ryczałty i panel okręgu.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "PLN" },
+    "url": "https://bazaapp.online/",
+    "downloadUrl": ["https://play.google.com/store/apps/details?id=com.radzio.RefHandballApp", "https://apps.apple.com/pl/app/baza-app/id6751402205"],
+    "publisher": { "@type": "Organization", "name": "Catch App", "url": "https://www.catchapp.com.pl", "taxID": "2220935509" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#features">Przejdź do treści</a>
+
+  <!-- ═══ INTRO: logo składa się na oczach (pierwsza wizyta w sesji) ═══ -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <svg class="intro-rings" viewBox="0 0 200 200">
+      <circle class="ring ring-a" cx="100" cy="100" r="68" />
+      <circle class="ring ring-b" cx="100" cy="100" r="84" />
+      <g class="ticks"></g>
+    </svg>
+    <picture class="intro-logo">
+      <source srcset="/Grafiki/site/logo.webp" type="image/webp" />
+      <img src="/Grafiki/site/logo.png" alt="" width="512" height="512" />
+    </picture>
+    <span class="intro-flash"></span>
+    <button class="intro-skip" type="button">Pomiń</button>
+  </div>
+
+  <!-- ═══ TŁO: ciepła czerń z tutorialu, poświata w barwie sekcji ═══ -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg-glow"></div>
+    <svg class="bg-waves" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"></svg>
+    <div class="bg-grain"></div>
+  </div>
+
+  <!-- ═══ TABLICA WYNIKÓW: komputer. Przewijanie to zegar meczu, sekcje to bramki. ═══ -->
+  <header class="board" id="board">
+    <nav class="board-links board-left" aria-label="Sekcje strony">
+      <a href="#features" data-nav="features">Funkcje</a>
+      <a href="#play" data-nav="play">Sprawdź sam</a>
+      <a href="#gallery" data-nav="gallery">Ekrany</a>
+    </nav>
+    <a class="board-score" href="#top" aria-label="BAZA - początek strony">
+      <span class="team team-home">
+        <img src="/Grafiki/site/logo-256.webp" alt="" width="34" height="34" />
+        <b>BAZA</b>
+      </span>
+      <span class="score" data-score="home"><i>0</i></span>
+      <span class="clock">
+        <span class="half">I POŁOWA</span>
+        <span class="digits"><b class="mm">00</b><i class="colon">:</i><b class="ss">00</b></span>
+      </span>
+      <span class="score" data-score="away"><i>0</i></span>
+      <span class="team team-away">
+        <b>PAPIER</b>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></svg>
+      </span>
+    </a>
+    <nav class="board-links board-right" aria-label="Więcej sekcji">
+      <a href="#beach" data-nav="beach">Beach</a>
+      <a href="#faq" data-nav="faq">FAQ</a>
+    </nav>
+    <button class="board-menu" type="button" aria-expanded="false" aria-controls="boardDrop">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg><span>Sekcje</span>
+    </button>
+    <a class="board-cta" href="#download">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Pobierz
+    </a>
+    <div class="board-line" aria-hidden="true"><span class="board-fill"></span></div>
+    <p class="board-event" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/></svg><time>00:00</time><span></span></p>
+    <nav class="board-drop" id="boardDrop" aria-label="Sekcje strony">
+      <a href="#features" data-nav="features"><b>01</b>Funkcje</a>
+      <a href="#play" data-nav="play"><b>02</b>Sprawdź sam</a>
+      <a href="#gallery" data-nav="gallery"><b>03</b>Ekrany</a>
+      <a href="#beach" data-nav="beach"><b>04</b>BAZA Beach</a>
+      <a href="#faq" data-nav="faq"><b>05</b>FAQ i dane</a>
+      <a href="#download" data-nav="download"><b>06</b>Pobierz</a>
+    </nav>
+  </header>
+
+  <!-- ═══ TELEFON: pasek wyniku u góry jak w transmisji + dolne menu 1:1 z aplikacji ═══ -->
+  <a class="bug" id="bug" href="#top" aria-label="BAZA - początek strony">
+    <span class="bug-team bug-home"><img src="/Grafiki/site/logo-256.webp" alt="" width="26" height="26" /><b>BAZA</b></span>
+    <span class="bug-score bug-num"><i data-score="home">0</i></span>
+    <span class="bug-mid"><span class="bug-clock">00:00</span><small class="bug-half">I POŁOWA</small></span>
+    <span class="bug-num bug-num-away"><i data-score="away">0</i></span>
+    <span class="bug-team bug-away"><b>PAPIER</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h4"/></svg></span>
+    <span class="bug-goal"></span>
+  </a>
+
+  <!-- Ikony dolnego menu: obrys na pasku, pełne na piłce (jak Ionicons w aplikacji). -->
+  <svg class="tb-sprite" aria-hidden="true" width="0" height="0">
+    <symbol id="ti-features" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></symbol>
+    <symbol id="ti-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path style="fill: var(--tif, none); stroke: var(--tis, inherit)" d="M10 8.3l6 3.7-6 3.7z"/></symbol>
+    <symbol id="ti-gallery" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.6"/><path style="stroke: var(--tis, inherit)" d="M10.5 18.5h3"/></symbol>
+    <symbol id="ti-download" viewBox="0 0 24 24"><path d="M12 3.5v11.5M7 10.5l5 5 5-5"/><path d="M4.5 16.5v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"/></symbol>
+  </svg>
+  <nav class="tabbar" id="tabbar" aria-label="Sekcje strony">
+    <span class="tb-bg" aria-hidden="true"></span>
+    <a class="tb-item" href="#features" data-nav="features"><span class="tb-icon"><svg><use href="#ti-features"/></svg></span><span class="tb-label">Funkcje</span></a>
+    <a class="tb-item" href="#play" data-nav="play"><span class="tb-icon"><svg><use href="#ti-play"/></svg></span><span class="tb-label">Sprawdź</span></a>
+    <a class="tb-item tb-center" href="#top" data-nav="top" aria-label="BAZA - początek strony"></a>
+    <a class="tb-item" href="#gallery" data-nav="gallery"><span class="tb-icon"><svg><use href="#ti-gallery"/></svg></span><span class="tb-label">Ekrany</span></a>
+    <a class="tb-item" href="#download" data-nav="download"><span class="tb-icon"><svg><use href="#ti-download"/></svg></span><span class="tb-label">Pobierz</span></a>
+    <span class="tb-pedestal" aria-hidden="true"><span class="tb-glow"></span><span class="tb-circle"><img src="/Grafiki/site/pilka-pusta.webp" alt="" width="38" height="38" /></span></span>
+    <span class="tb-ring" aria-hidden="true"></span>
+    <span class="tb-x" aria-hidden="true"><span class="tb-rest"><span class="tb-lift"><span class="tb-scale"><span class="tb-squash"><span class="tb-spin">
+      <span class="tb-pattern"><img src="/Grafiki/site/pilka-pusta.webp" alt="" width="57" height="57" /><img class="tb-pat-on" src="/Grafiki/site/pilka-baza.webp" alt="" width="57" height="57" /></span>
+      <span class="tb-disc"><span class="tb-disc-icon"><svg><use href="#ti-features"/></svg></span><span class="tb-sheen-clip"><span class="tb-sheen"></span></span></span>
+    </span></span></span></span></span></span>
+  </nav>
+
+  <!-- ═══ LECĄCY TELEFON: jeden telefon wędruje między sekcjami i zmienia ekran ═══ -->
+  <div class="flyer" id="flyer" aria-hidden="true">
+    <div class="flyer-body">
+      <div class="flyer-front">
+        <img class="flyer-shot a" src="/Grafiki/site/zrzuty/start-gra.webp" alt="" width="600" height="1308" decoding="async" />
+        <img class="flyer-shot b" src="/Grafiki/site/zrzuty/glowna.webp" alt="" width="600" height="1308" decoding="async" />
+      </div>
+      <div class="flyer-back"><img src="/Grafiki/site/logo-256.webp" alt="" width="256" height="256" /></div>
+    </div>
+  </div>
+
+  <main id="top">
+    <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+    <section class="hero" data-accent="#E6CCB2" data-bazus="hero">
+      <a class="chip" href="#faq-zprp">
+        <img src="/Grafiki/logo_zprp.png" alt="" width="18" height="18" />
+        inspirowane baza.zprp.pl
+      </a>
+      <h1 class="hero-title" aria-label="Cześć, sędzio.">
+        <span class="hero-fit"><span class="w" style="--i:0">Cześć,</span> <span class="w accent" style="--i:1">sędzio.</span></span>
+      </h1>
+      <div class="hero-copy">
+        <p class="hero-lead">Twoje mecze z baza.zprp.pl, protokół ProEl, przepisy i ryczałty w jednej aplikacji.</p>
+        <div class="store-row" data-stores>
+          <a class="store store-play" href="https://play.google.com/store/apps/details?id=com.radzio.RefHandballApp&amp;hl=pl" target="_blank" rel="noopener" data-store="android">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8l10.6 9.2L4 21.2c-.4-.2-.6-.6-.6-1.1V3.9c0-.5.2-.9.6-1.1z" fill="#34A853"/><path d="M18.3 15.2L14.6 12 4 21.2c.3.2.8.2 1.2 0z" fill="#EA4335"/><path d="M18.3 8.8L5.2 2.8c-.4-.2-.9-.2-1.2 0L14.6 12z" fill="#4285F4"/><path d="M21 10.6l-2.7-1.8-3.7 3.2 3.7 3.2 2.7-1.8c.8-.5.8-2.3 0-2.8z" fill="#FBBC04"/></svg>
+            <span><small>Pobierz z</small>Google Play</span>
+          </a>
+          <a class="store store-apple" href="https://apps.apple.com/pl/app/baza-app/id6751402205?l=pl" target="_blank" rel="noopener" data-store="ios">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z"/></svg>
+            <span><small>Pobierz w</small>App Store</span>
+          </a>
+        </div>
+        <a class="hero-more" href="#features"><span class="hero-more-line" aria-hidden="true"></span>Zobacz, co potrafi</a>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-orbit">
+          <svg class="hero-rings" viewBox="0 0 400 400">
+            <circle cx="200" cy="200" r="150" class="hr hr-a" />
+            <circle cx="200" cy="200" r="178" class="hr hr-b" />
+            <circle cx="200" cy="200" r="196" class="hr hr-c" />
+          </svg>
+          <picture class="hero-logo" id="heroLogo">
+            <source srcset="/Grafiki/site/logo.webp" type="image/webp" />
+            <img src="/Grafiki/site/logo.png" alt="" width="512" height="512" fetchpriority="high" />
+          </picture>
+        </div>
+        <div class="hero-bazus">
+          <picture>
+            <source srcset="/Grafiki/site/bazus-420.webp" type="image/webp" />
+            <img src="/Grafiki/site/bazus-420.png" alt="" width="420" height="420" />
+          </picture>
+          <svg class="whistle-lines" viewBox="0 0 60 60"><path d="M6 30h16M10 16l12 8M10 44l12-8"/></svg>
+          <p class="bubble bubble-hero">Gwizdek gotowy? To lecimy!</p>
+        </div>
+      </div>
+
+      <dl class="stats" id="stats" aria-label="BAZA w liczbach">
+        <div class="stat"><dt>sędziów w BAZIE</dt><dd data-stat="judges">0</dd></div>
+        <div class="stat"><dt>meczów w ProElu</dt><dd data-stat="proel_matches">0</dd></div>
+        <div class="stat"><dt>pytań z przepisów</dt><dd data-stat="questions">432</dd></div>
+        <div class="stat"><dt>województw w BAZIE</dt><dd data-stat="provinces">0</dd></div>
+      </dl>
+    </section>
+
+    <!-- ═══════════════ HISTORIA: prawdziwy pokaz z aplikacji ═══════════════ -->
+    <section class="story" id="features" aria-label="Funkcje BAZY" data-goal="Funkcje">
+      <div class="story-pin">
+        <div class="story-stage-wrap">
+          <div class="story-glow" aria-hidden="true"></div>
+          <div id="story-stage" class="story-stage" role="img" aria-label="Pokaz funkcji BAZY z prawdziwych ekranów aplikacji">
+            <picture class="story-placeholder">
+              <source srcset="/Grafiki/site/logo.webp" type="image/webp" />
+              <img src="/Grafiki/site/logo.png" alt="" width="512" height="512" loading="lazy" />
+            </picture>
+          </div>
+        </div>
+
+        <div class="story-copy">
+          <article class="chapter" data-i="0" data-accent="#E6CCB2">
+            <p class="eyebrow"><span>01</span> Witaj w BAZIE</p>
+            <h2>Od obsady do protokołu</h2>
+            <p>Mecze, ProEl, przepisy, oceny, statystyki, ryczałty, hale i panel okręgu.</p>
+          </article>
+          <article class="chapter" data-i="1" data-accent="#E0A878" id="calendar">
+            <p class="eyebrow"><span>02</span> Mecze</p>
+            <h2>Mecze prosto z ZPRP</h2>
+            <p>Termin, hala i obsada. Zmiana przychodzi jako powiadomienie.</p>
+            <ul>
+              <li>odliczanie do najbliższego meczu na ekranie głównym,</li>
+              <li>obsada, delegat i wynik z baza.zprp.pl,</li>
+              <li>mecze w Kalendarzu Google albo Apple.</li>
+            </ul>
+          </article>
+          <article class="chapter" data-i="2" data-accent="#E8970A">
+            <p class="eyebrow"><span>03</span> ProEl</p>
+            <h2>Protokół w telefonie</h2>
+            <p>Bramki, kary, czas i podpisy. Na koniec PDF i wysyłka do ZPRP.</p>
+            <ul>
+              <li>zegar meczu, kary 2 minut z odliczaniem, czasy drużyn,</li>
+              <li>kilka osób prowadzi jeden mecz, działa też bez zasięgu,</li>
+              <li>podpisy na ekranie i gotowy protokół PDF.</li>
+            </ul>
+          </article>
+          <article class="chapter" data-i="3" data-accent="#A98BFF">
+            <p class="eyebrow"><span>04</span> Przepisy i testy</p>
+            <h2>Przepisy i 432 pytania</h2>
+            <p>Regulaminy lig, nauka, egzamin i powtórka błędów. Każde pytanie z odsyłaczem do przepisu.</p>
+          </article>
+          <article class="chapter" data-i="4" data-accent="#45D8B2">
+            <p class="eyebrow"><span>05</span> Oceny</p>
+            <h2>Oceny delegatów i mentorów</h2>
+            <p>Arkusz w skali A-G i historia ocen.</p>
+          </article>
+          <article class="chapter" data-i="5" data-accent="#5DB8FF">
+            <p class="eyebrow"><span>06</span> Statystyki</p>
+            <h2>Sezon w liczbach</h2>
+            <p>Mecze, kategorie i role. Także z poprzednich sezonów.</p>
+          </article>
+          <article class="chapter" data-i="6" data-accent="#F2C84B">
+            <p class="eyebrow"><span>07</span> Ryczałty</p>
+            <h2>Ryczałt liczy się sam</h2>
+            <p>Stawka z tabeli ZPRP, kilometry z tabeli odległości.</p>
+            <ul>
+              <li>nowe stawki od 1 września 2026 r. wybierane datą meczu,</li>
+              <li>koszty, podatek i przejazd jak na rachunku ZPRP, co do grosza.</li>
+            </ul>
+          </article>
+          <article class="chapter" data-i="7" data-accent="#FF8A65">
+            <p class="eyebrow"><span>08</span> Kontakty i hale</p>
+            <h2>Dzwoń, pisz, jedź</h2>
+            <p>Sędziowie, kluby i hale. Nawigacja do hali jednym stuknięciem.</p>
+          </article>
+          <article class="chapter" data-i="8" data-accent="#57DF9A">
+            <p class="eyebrow"><span>09</span> Panele okręgów</p>
+            <h2>Twój okręg, Twój panel</h2>
+            <p>Niedyspozycje, Mecztarg, ogłoszenia i wydarzenia okręgu.</p>
+          </article>
+          <article class="chapter" data-i="9" data-accent="#FF5468">
+            <p class="eyebrow"><span>10</span> Bazuś</p>
+            <h2>Zapytaj Bazusia</h2>
+            <p>Potrząśnij telefonem. Zna BAZĘ, ProEla i przepisy.</p>
+          </article>
+        </div>
+
+        <nav class="story-rail" aria-label="Rozdziały">
+          <button type="button" data-go="0" aria-label="Witaj w BAZIE"></button>
+          <button type="button" data-go="1" aria-label="Mecze"></button>
+          <button type="button" data-go="2" aria-label="ProEl"></button>
+          <button type="button" data-go="3" aria-label="Przepisy i testy"></button>
+          <button type="button" data-go="4" aria-label="Oceny"></button>
+          <button type="button" data-go="5" aria-label="Statystyki"></button>
+          <button type="button" data-go="6" aria-label="Ryczałty"></button>
+          <button type="button" data-go="7" aria-label="Kontakty i hale"></button>
+          <button type="button" data-go="8" aria-label="Panele okręgów"></button>
+          <button type="button" data-go="9" aria-label="Bazuś"></button>
+          <span class="story-rail-fill" aria-hidden="true"></span>
+          <span class="story-count" aria-hidden="true"><b>01</b> / 10</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- ═══════════ SPRAWDŹ SAM: poziomy tor - przewijasz w dół, jedzie w bok ═══════════ -->
+    <section class="play curtain" id="play" data-accent="#A98BFF" data-bazus="play" data-curtain="circle" data-goal="Sprawdź sam">
+      <div class="hpin">
+        <div class="htrack" id="htrack">
+          <article class="panel panel-intro" data-panel="Start">
+            <div class="panel-copy">
+              <p class="kicker">Sprawdź sam</p>
+              <h2 class="paint">Wypróbuj przed pobraniem</h2>
+              <p>Quiz, ProEl, kalkulator ryczałtu i mapa okręgów. Klikaj śmiało.</p>
+              <p class="swipe-hint"><span>Przewijaj, tor jedzie w bok</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></p>
+            </div>
+            <div class="fly-slot" data-fly="play" aria-hidden="true"></div>
+          </article>
+
+          <article class="panel panel-quiz" data-panel="Quiz" style="--card:#A98BFF" data-bazus="quiz">
+            <header class="panel-head">
+              <span class="num">01</span>
+              <div><h3>Quiz z przepisów</h3><p>432 pytania w losowej kolejności.</p></div>
+            </header>
+            <div class="quiz-host" data-live="quiz" role="group" aria-label="Quiz z przepisów gry">
+              <p class="loading">Ładuję kartę pytania...</p>
+            </div>
+          </article>
+
+          <article class="panel panel-device panel-proel" data-panel="ProEl" style="--card:#E8970A" data-bazus="proel">
+            <div class="panel-copy">
+              <span class="num">02</span>
+              <h3>Poprowadź mecz w ProElu</h3>
+              <p>Puść czas, rzuć bramkę, daj karę, weź czas dla drużyny.</p>
+              <ul class="tips">
+                <li><b>START CZAS</b> puszcza zegar meczu</li>
+                <li><b>+</b> przy wyniku to bramka</li>
+                <li><b>2 MINUTY</b> pyta o numer i odlicza karę</li>
+              </ul>
+              <p class="fine">Czas płynie tu 10 razy szybciej.</p>
+            </div>
+            <div class="device">
+              <div class="device-screen" data-live="proel-sim" role="group" aria-label="Protokół ProEl z aplikacji BAZA">
+                <img class="device-wait" src="/Grafiki/site/zrzuty/proel.webp" alt="" width="600" height="1308" loading="lazy" />
+              </div>
+            </div>
+          </article>
+
+          <article class="panel panel-device panel-calc" data-panel="Ryczałt" style="--card:#F2C84B" data-bazus="calc">
+            <div class="device">
+              <div class="device-screen" data-live="calc-app" role="group" aria-label="Kalkulator ryczałtu z aplikacji BAZA">
+                <img class="device-wait" src="/Grafiki/site/zrzuty/wiecej.webp" alt="" width="600" height="1308" loading="lazy" />
+              </div>
+            </div>
+            <div class="panel-copy">
+              <span class="num">03</span>
+              <h3>Policz swój ryczałt</h3>
+              <p>Stawka ZPRP z daty meczu, kilometry z tabeli odległości, podatek jak na rachunku.</p>
+              <ul class="tips">
+                <li>wybierz <b>datę</b>, <b>rolę</b> i <b>rozgrywki</b></li>
+                <li>wskaż miasto wyjazdu i hali</li>
+                <li><b>Oblicz ryczałt</b> i sprawdź rachunek co do grosza</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="panel panel-map" data-panel="Okręgi" style="--card:#57DF9A" data-bazus="map">
+            <div class="panel-copy">
+              <span class="num">04</span>
+              <h3>Panel okręgu</h3>
+              <p>Podświetlone okręgi mają w BAZIE niedyspozycje, Mecztarg, ogłoszenia i wydarzenia. Stuknij swój.</p>
+            </div>
+            <div class="map" id="map">
+              <svg class="map-svg" viewBox="0 0 1000 951" role="img" aria-label="Mapa województw Polski"></svg>
+              <div class="map-crests"></div>
+            </div>
+            <aside class="crest-card" aria-live="polite">
+              <div class="crest-stage">
+                <span class="crest-glow"></span>
+                <span class="crest-wave w1"></span>
+                <span class="crest-wave w2"></span>
+                <span class="crest-sweep"></span>
+                <img class="crest-img" src="/Grafiki/site/okregi/slaskie.webp" alt="" width="160" height="160" loading="lazy" />
+              </div>
+              <b class="crest-name">Wybierz okręg</b>
+              <span class="crest-colors"><i></i><i></i></span>
+              <span class="crest-state">Stuknij województwo.</span>
+            </aside>
+          </article>
+        </div>
+
+        <nav class="hbar" aria-label="Sprawdź sam: przejdź do">
+          <button type="button" data-hgo="0">Start</button>
+          <button type="button" data-hgo="1">Quiz</button>
+          <button type="button" data-hgo="2">ProEl</button>
+          <button type="button" data-hgo="3">Ryczałt</button>
+          <button type="button" data-hgo="4">Okręgi</button>
+          <span class="hbar-fill" aria-hidden="true"></span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ EKRANY: prawdziwe zrzuty, tor w bok ═══════════════════ -->
+    <section class="gallery curtain" id="gallery" data-accent="#E0A878" data-bazus="gallery" data-curtain="diag" data-goal="Ekrany">
+      <header class="section-head">
+        <p class="kicker">Ekrany</p>
+        <h2 class="paint">Tak wygląda BAZA</h2>
+        <p>Przesuń w bok.</p>
+      </header>
+      <div class="reel" id="reel" tabindex="0" role="region" aria-roledescription="karuzela" aria-label="Zrzuty ekranu aplikacji BAZA">
+        <figure class="shot" data-title="Ekran główny"><div class="shot-in"><img src="/Grafiki/site/zrzuty/glowna.webp" alt="Ekran główny BAZY z odliczaniem do najbliższego meczu" width="600" height="1308" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Mecze"><div class="shot-in"><img src="/Grafiki/site/zrzuty/mecze.webp" alt="Lista nadchodzących meczów sędziego" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="ProEl"><div class="shot-in"><img src="/Grafiki/site/zrzuty/proel.webp" alt="Protokół elektroniczny ProEl z dzisiejszym meczem" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Przepisy"><div class="shot-in"><img src="/Grafiki/site/zrzuty/przepisy.webp" alt="Przepisy gry w piłkę ręczną z zakładkami rozdziałów" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Katalog pytań"><div class="shot-in"><img src="/Grafiki/site/zrzuty/katalog-pytan.webp" alt="Katalog pytań z przepisów w trybie nauki" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Statystyki"><div class="shot-in"><img src="/Grafiki/site/zrzuty/statystyki.webp" alt="Statystyki sezonu: mecze, role i oceny" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Moje statystyki"><div class="shot-in"><img src="/Grafiki/site/zrzuty/moje-statystyki.webp" alt="Profil sędziego ze statystykami sezonu" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Więcej"><div class="shot-in"><img src="/Grafiki/site/zrzuty/wiecej.webp" alt="Menu Więcej z narzędziami sędziego" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Tabela odległości"><div class="shot-in"><img src="/Grafiki/site/zrzuty/tabela-odleglosci.webp" alt="Ogólnopolska tabela odległości na mapie Polski" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Niedyspozycje"><div class="shot-in"><img src="/Grafiki/site/zrzuty/niedyspozycje.webp" alt="Zgłaszanie niedyspozycji sędziego" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Kalendarz dyspozycji"><div class="shot-in"><img src="/Grafiki/site/zrzuty/dyspozycyjnosc.webp" alt="Kalendarz dyspozycyjności z zaznaczonymi dniami" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Panel okręgu"><div class="shot-in"><img src="/Grafiki/site/zrzuty/panel-okregu.webp" alt="Panel okręgowy z dyspozycją i ogłoszeniami" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Ogłoszenia okręgu"><div class="shot-in"><img src="/Grafiki/site/zrzuty/ogloszenia.webp" alt="Kanał ogłoszeń okręgowych z reakcjami" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Giełda meczów"><div class="shot-in"><img src="/Grafiki/site/zrzuty/gielda-meczow.webp" alt="Giełda meczów do oddania i przejęcia" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Narzędzia okręgu"><div class="shot-in"><img src="/Grafiki/site/zrzuty/panel-wiecej.webp" alt="Narzędzia panelu okręgu: ryczałty, sędziowie, oceny" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Ocena młodego sędziego"><div class="shot-in"><img src="/Grafiki/site/zrzuty/ocena-mlodego.webp" alt="Ocena młodego sędziego wystawiona przez mentora" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+        <figure class="shot" data-title="Na koniec: rzut do bramki"><div class="shot-in"><img src="/Grafiki/site/zrzuty/start-gra.webp" alt="Ekran startowy BAZY z mini-grą: rzut piłką do bramki" width="600" height="1308" loading="lazy" decoding="async" /></div></figure>
+      </div>
+      <div class="reel-nav">
+        <button type="button" class="round" data-dir="-1" aria-label="Poprzedni ekran"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <div class="reel-label" aria-live="polite"><b>Ekran główny</b><span class="reel-count">1 / 17</span><span class="reel-bar"><i></i></span></div>
+        <button type="button" class="round" data-dir="1" aria-label="Następny ekran"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ BAZA BEACH: pocztówki z plaży ═══════════════════ -->
+    <section class="beach" id="beach" data-accent="#F6C453" data-bazus="beach" data-goal="BAZA Beach">
+      <div class="beach-pin">
+        <div class="beach-scene" aria-hidden="true">
+          <span class="sun"></span>
+          <svg class="sea" viewBox="0 0 1440 220" preserveAspectRatio="none">
+            <path class="sea-a" d="M0 60c120 20 240 30 360 18s240-34 360-30 240 30 360 30 240-20 360-24v166H0z"/>
+            <path class="sea-b" d="M0 96c160 14 320 22 480 8s320-28 480-18 320 26 480 20v114H0z"/>
+            <path class="foam" d="M0 128c120 10 240 14 360 6s240-18 360-14 240 16 360 14 240-10 360-12"/>
+          </svg>
+          <div class="sand"></div>
+          <svg class="steps" viewBox="0 0 1000 600" preserveAspectRatio="none"></svg>
+        </div>
+
+        <div class="cards">
+          <figure class="pc" style="--x:-37;--y:-19;--r:-9;--k:0;--mx:-31;--my:-35"><div class="pc-in">
+            <div class="pc-face pc-front"><img src="/Grafiki/site/beach/turnieje.webp" alt="BAZA Beach: lista turniejów" width="460" height="1022" loading="lazy" /><figcaption>Turnieje</figcaption></div>
+            <div class="pc-face pc-back"><span class="stamp"><img src="/Grafiki/site/beach.webp" alt="" width="64" height="64" loading="lazy" /></span><span class="postmark">BEACH 2026</span><span class="hand">Pozdrowienia z turnieju!</span></div>
+          </div></figure>
+          <figure class="pc" style="--x:-41;--y:21;--r:7;--k:1;--mx:0;--my:-37"><div class="pc-in">
+            <div class="pc-face pc-front"><img src="/Grafiki/site/beach/proel.webp" alt="BAZA Beach: protokół meczu na żywo" width="460" height="1022" loading="lazy" /><figcaption>Protokół LIVE</figcaption></div>
+            <div class="pc-face pc-back"><span class="stamp"><img src="/Grafiki/site/beach.webp" alt="" width="64" height="64" loading="lazy" /></span><span class="postmark">SET 2 · 09:19</span><span class="hand">Mecz w telefonie!</span></div>
+          </div></figure>
+          <figure class="pc" style="--x:-24;--y:30;--r:-4;--k:2;--mx:-31;--my:33"><div class="pc-in">
+            <div class="pc-face pc-front"><img src="/Grafiki/site/beach/drabinki.webp" alt="BAZA Beach: drabinka pucharowa" width="460" height="1022" loading="lazy" /><figcaption>Drabinki</figcaption></div>
+            <div class="pc-face pc-back"><span class="stamp"><img src="/Grafiki/site/beach.webp" alt="" width="64" height="64" loading="lazy" /></span><span class="postmark">FINAŁ</span><span class="hand">Kto gra w finale?</span></div>
+          </div></figure>
+          <figure class="pc" style="--x:36;--y:-20;--r:8;--k:3;--mx:31;--my:-34"><div class="pc-in">
+            <div class="pc-face pc-front"><img src="/Grafiki/site/beach/kalendarz.webp" alt="BAZA Beach: kalendarz rozgrywek" width="460" height="1022" loading="lazy" /><figcaption>Kalendarz</figcaption></div>
+            <div class="pc-face pc-back"><span class="stamp"><img src="/Grafiki/site/beach.webp" alt="" width="64" height="64" loading="lazy" /></span><span class="postmark">LIPIEC 2026</span><span class="hand">Cały sezon na piasku</span></div>
+          </div></figure>
+          <figure class="pc" style="--x:41;--y:20;--r:-7;--k:4;--mx:31;--my:32"><div class="pc-in">
+            <div class="pc-face pc-front"><img src="/Grafiki/site/beach/przepisy.webp" alt="BAZA Beach: przepisy gry w piłkę ręczną plażową" width="460" height="1022" loading="lazy" /><figcaption>Przepisy plażowe</figcaption></div>
+            <div class="pc-face pc-back"><span class="stamp"><img src="/Grafiki/site/beach.webp" alt="" width="64" height="64" loading="lazy" /></span><span class="postmark">IHF 2026</span><span class="hand">Przepisy pod ręką</span></div>
+          </div></figure>
+          <figure class="pc" style="--x:24;--y:31;--r:5;--k:5;--mx:0;--my:36"><div class="pc-in">
+            <div class="pc-face pc-front"><img src="/Grafiki/site/beach/podpisy.webp" alt="BAZA Beach: podsumowanie meczu z podpisami" width="460" height="1022" loading="lazy" /><figcaption>Podpisy na ekranie</figcaption></div>
+            <div class="pc-face pc-back"><span class="stamp"><img src="/Grafiki/site/beach.webp" alt="" width="64" height="64" loading="lazy" /></span><span class="postmark">PODPISANO</span><span class="hand">Bez kartki i długopisu</span></div>
+          </div></figure>
+        </div>
+
+        <div class="beach-content">
+          <picture class="beach-logo">
+            <source srcset="/Grafiki/site/beach.webp" type="image/webp" />
+            <img src="/Grafiki/baza_beach.png" alt="BAZA Beach" width="200" height="200" loading="lazy" />
+          </picture>
+          <p class="kicker">BAZA Beach</p>
+          <h2 class="paint">Plażówka ma swoją BAZĘ</h2>
+          <p>Osobna aplikacja do piłki ręcznej plażowej: turnieje, protokół LIVE, drabinki i rozliczenia.</p>
+          <a class="btn btn-beach" href="/beach.html">Wejdź na plażę<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+
+        <svg class="washer" viewBox="0 0 1440 400" preserveAspectRatio="none" aria-hidden="true">
+          <path class="wash-a" d="M0 120c160-60 320-70 480-30s320 80 480 60 320-80 480-70V400H0z"/>
+          <path class="wash-b" d="M0 160c180-40 360-40 540 0s360 60 540 30 240-50 360-40V400H0z"/>
+          <path class="wash-line" d="M0 160c180-40 360-40 540 0s360 60 540 30 240-50 360-40"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ BEZPIECZEŃSTWO + FAQ ═══════════════════ -->
+    <section class="secure curtain" id="security" data-accent="#7FD1B9" data-bazus="secure" data-curtain="wave" data-goal="Twoje dane">
+      <header class="section-head">
+        <p class="kicker">Twoje dane</p>
+        <h2 class="paint">Hasło zostaje w Twoim telefonie</h2>
+        <p>Tak idą dane, gdy zapisujesz wynik w baza.zprp.pl.</p>
+      </header>
+      <div class="flow" id="flow">
+        <svg class="flow-svg" viewBox="0 0 900 220" aria-hidden="true">
+          <path id="flowPath" class="flow-path" d="M110 110 C 260 20, 340 20, 450 110 S 640 200, 790 110" />
+          <path class="flow-path-lit" d="M110 110 C 260 20, 340 20, 450 110 S 640 200, 790 110" />
+          <g class="packet"><circle r="15" /><path d="M-5 -1v-3a5 5 0 0 1 10 0v3M-7 -1h14v9h-14z" /></g>
+        </svg>
+        <div class="flow-node n1"><span class="node-ico"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></span><b>Twój telefon</b><small>login i hasło w szyfrowanym magazynie systemu</small></div>
+        <div class="flow-node n2"><span class="node-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></span><b>Serwer BAZY</b><small>odszyfrowuje tylko na czas operacji i nic nie zapisuje</small></div>
+        <div class="flow-node n3"><span class="node-ico"><img src="/Grafiki/logo_zprp.png" alt="" width="26" height="26" /></span><b>baza.zprp.pl</b><small>zapisany wynik, a do Ciebie wraca tylko „udało się”</small></div>
+      </div>
+      <p class="flow-caption" aria-live="polite">Pakiet jest szyfrowany kluczem publicznym RSA, zanim opuści telefon.</p>
+
+      <!-- FAQ jako rozmowa z Bazusiem: z lewej pytania, z prawej czat. Bazuś
+           wskakuje tu z rogu ekranu. Treść stoi niżej jako zwykły tekst
+           (wyszukiwarki, czytniki ekranu, strona bez JS) - czat buduje z niej JS. -->
+      <div class="faq" id="faq" data-bazus="faq">
+        <nav class="faq-list" aria-label="Pytania"></nav>
+        <div class="chat" aria-label="Rozmowa z Bazusiem">
+          <header class="chat-head">
+            <span class="chat-seat" aria-hidden="true"><img src="/Grafiki/site/bazus_small.webp" alt="" width="256" height="256" loading="lazy" /></span>
+            <span class="chat-who"><b>Bazuś</b><small><i></i><span class="chat-status">w BAZIE</span></small></span>
+            <span class="chat-count"></span>
+          </header>
+          <div class="chat-body" aria-live="polite"></div>
+          <footer class="chat-nav">
+            <button type="button" class="chat-prev">← Poprzednie</button>
+            <button type="button" class="chat-next">Następne pytanie →</button>
+          </footer>
+        </div>
+        <div class="faq-src">
+          <section class="faq-group" data-group="Na start">
+            <h3>Na start</h3>
+            <article class="fq" id="faq-czym" data-short="Czym jest BAZA?"><h4>Czym właściwie jest BAZA?</h4><p>To aplikacja dla sędziów piłki ręcznej. Mecze z baza.zprp.pl, protokół ProEl, przepisy i 432 pytania, oceny, statystyki, ryczałty, hale i panel okręgu.</p><p>Wszystko w jednym telefonie. A ja w niej mieszkam.</p><div class="fq-more"><p>Mecze, obsady i oceny pobieram z Twojego konta w baza.zprp.pl, więc nic nie przepisujesz ręcznie.</p><p>Jest też BAZA Beach, osobna aplikacja do piłki ręcznej plażowej.</p></div></article>
+            <article class="fq" id="faq-sprzet" data-short="Telefony i tablety"><h4>Na czym działa BAZA?</h4><p>Na Androidzie i iPhonie. Pobierzesz ją z Google Play i App Store.</p><p>Działa też na tablecie, wygodnie przy stoliku sędziowskim.</p><div class="fq-more"><p>Ekran meczu na tablecie korzysta z większego ekranu, a osoby funkcyjne podpisują się palcem prosto na nim.</p></div></article>
+            <article class="fq" id="faq-logowanie" data-short="Logowanie"><h4>Jak się zalogować?</h4><p>Tak samo jak na baza.zprp.pl: Twoim loginem i hasłem sędziego.</p><p>Potem wchodzisz już odciskiem palca albo twarzą.</p><div class="fq-more"><p>Biometria działa tylko w telefonie. Od systemu dostaję jedynie odpowiedź „udało się” albo „nie”.</p><p>Zmienisz hasło w baza.zprp.pl? Poproszę Cię o nowe przy następnym wejściu.</p></div></article>
+            <article class="fq" id="faq-konto" data-short="Konto i usunięcie"><h4>Czy BAZA zakłada mi nowe konto?</h4><p>Sędziemu nie. BAZA jest nakładką na Twoje istniejące konto w baza.zprp.pl, a nie osobnym kontem.</p><p>Hasło i dane konta zmieniasz w baza.zprp.pl, nie u mnie.</p><div class="fq-more"><p>Osobne konto zakładamy tylko jako konto ProEl, dla osób bez konta ZPRP, np. stolikowych.</p><p>Chcesz skończyć? Wyloguj się i odinstaluj aplikację. Dane z ZPRP znikną razem z nią.</p><p>Usunięcie danych z serwera BAZY albo konta ProEl zlecisz mailem na <a href="mailto:radoslawwitkowicz@catchapp.com.pl">radoslawwitkowicz@catchapp.com.pl</a>. Odpowiadamy najpóźniej w ciągu miesiąca.</p></div></article>
+            <article class="fq" id="faq-koszt" data-short="Ile kosztuje"><h4>Ile to kosztuje?</h4><p>Zero złotych. Bez reklam i bez abonamentu.</p><p>Jeśli chcesz, możesz wesprzeć rozwój na Patronite. Nie obrażę się.</p></article>
+            <article class="fq" id="faq-zprp" data-short="Czy to aplikacja ZPRP"><h4>Czy BAZA to aplikacja ZPRP?</h4><p>Nie. BAZA jest inspirowana baza.zprp.pl, ale nie jest aplikacją ZPRP i jej nie zastępuje.</p><p>Wyniki i protokoły zapisuję w baza.zprp.pl w Twoim imieniu.</p><div class="fq-more"><p>Za BAZĄ stoi Catch App, studio Radosława Witkowicza. To niezależna aplikacja, nie związku.</p></div></article>
+          </section>
+          <section class="faq-group" data-group="Mecz i ProEl">
+            <h3>Mecz i ProEl</h3>
+            <article class="fq" id="faq-zasieg" data-short="Hala bez zasięgu"><h4>Czy ProEl działa w hali bez zasięgu?</h4><p>Tak. Otwórz mecz jeszcze przy zasięgu, bo na starcie sprawdzam jego token. Potem prowadzisz cały mecz bez sieci.</p><p>Zapis dojdzie na serwer sam, gdy wróci sieć.</p><div class="fq-more"><p>Każda sekunda meczu najpierw ląduje w pamięci telefonu, a dopiero potem leci na serwer. Padnie zasięg, nic nie ginie.</p><p>Podpisy też zbierzesz bez zasięgu. Czekają w kolejce i wysyłają się same.</p><p>Do zatwierdzenia protokołu i PDF-a potrzebuję już sieci.</p></div></article>
+            <article class="fq" id="faq-przejecie" data-short="Kilka telefonów"><h4>Czy kilka osób może prowadzić jeden mecz?</h4><p>Tak. Prowadzi jeden telefon naraz, a drugi sędzia może przejąć prowadzenie, np. gdy padnie bateria.</p><p>Każda zmiana w protokole ma autora i wersję.</p><div class="fq-more"><p>Gdy telefon prowadzący zamilknie na dłużej, prowadzenie da się przejąć bez czekania na niego.</p><p>Protokół czytać mogą zidentyfikowani użytkownicy ProEla, bo to wspólna baza sędziów. Zmieniać i zatwierdzać mogą tylko sędziowie meczu, delegat i administrator.</p></div></article>
+            <article class="fq" id="faq-wysylka" data-short="Protokół do ZPRP"><h4>Jak protokół trafia do ZPRP?</h4><p>Po meczu osoby funkcyjne podpisują się na ekranie, a zatwierdzony protokół wysyłam do baza.zprp.pl.</p><p>Dostajesz też gotowy PDF.</p><div class="fq-more"><p>Wynik skrócony i raport dodatkowy wyślesz z aplikacji tak samo. Treść raportu trafia też do uwag meczu w ZPRP.</p><p>Gdy wysyłka do ZPRP się nie uda, czeka w kolejce i ponawia się sama.</p></div></article>
+            <article class="fq" id="faq-trening" data-short="Najpierw poćwiczyć"><h4>Mogę najpierw poćwiczyć ProEla?</h4><p>Jasne. Mecz testowy działa jak prawdziwy, ale nigdy nie trafia na serwer ani do ZPRP.</p><div class="fq-more"><p>Znajdziesz go pod przyciskiem „Jak działa ProEl?”. Ma prawdziwe składy i kolory koszulek.</p><p>Na szkoleniach sędziowskich poprowadzisz też mecz jako szkoleniowy, a potem zobaczysz swój wynik.</p></div></article>
+          </section>
+          <section class="faq-group" data-group="Poza meczem">
+            <h3>Poza meczem</h3>
+            <article class="fq" id="faq-powiadomienia" data-short="Zmiany w meczach"><h4>Skąd wiem, że coś się zmieniło w moim meczu?</h4><p>Dostajesz powiadomienie o nowym meczu, zmianie terminu, miejsca albo obsady.</p><p>Mecze mogą też same wpadać do Kalendarza Google albo Apple.</p><div class="fq-more"><p>W ustawieniach włączasz osobno: przypomnienie przed meczem, nowy lub usunięty mecz, termin i miejsce, zmianę obsady, status protokołu, ocenę delegata i oferty giełdy.</p><p>Kalendarz Google podłączasz sam i sam odłączasz. Kalendarz Apple działa tylko w telefonie.</p></div></article>
+            <article class="fq" id="faq-ryczalt" data-short="Ryczałt"><h4>Skąd BAZA wie, ile mi się należy?</h4><p>Stawkę biorę z tabeli ZPRP obowiązującej w dniu meczu, a kilometry z tabeli odległości.</p><p>Koszty, podatek i dojazd liczę jak na rachunku ZPRP, co do grosza. Sprawdź w kalkulatorze wyżej.</p><div class="fq-more"><p>Nowe stawki ZPRP od 1 września 2026 r. włączają się same dla meczów od tej daty.</p><p>Kilometry biorę z ogólnopolskiej tabeli odległości. Gdy trasy w niej nie ma, wpisujesz je ręcznie.</p></div></article>
+            <article class="fq" id="faq-panel" data-short="Panel okręgu"><h4>Co daje panel okręgu?</h4><p>Niedyspozycje razem z Twoimi kalendarzami, giełdę meczów do oddania i przejęcia, ogłoszenia i wydarzenia z listą obecności.</p><p>Włącza go komisja Twojego okręgu. Na mapie wyżej widać, gdzie już działa.</p><div class="fq-more"><p>Obok niedyspozycji widzisz swoje kalendarze, np. plan zajęć albo grafik z pracy. Sam decydujesz, czy okręg je widzi.</p><p>Na giełdzie oddajesz mecz, którego nie możesz sędziować, a inni sędziowie okręgu mogą go przejąć.</p></div></article>
+            <article class="fq" id="faq-przepisy" data-short="Przepisy i pytania"><h4>Czy przepisy w BAZIE są aktualne?</h4><p>Przepisy gry i regulaminy rozgrywek odświeżam w tle, więc masz najnowszą wersję bez aktualizowania aplikacji.</p><p>Do tego 432 pytania, każde z odsyłaczem do przepisu.</p><div class="fq-more"><p>Pytania przerobisz w trzech trybach: nauka, trening i egzamin. Błędy wracają do powtórki.</p><p>W meczu młodzieżowym pod ikoną czapki masz wytyczne dla tej kategorii.</p></div></article>
+            <article class="fq" id="faq-oceny" data-short="Oceny"><h4>Jak działają oceny?</h4><p>Arkusz delegata z baza.zprp.pl widzisz w aplikacji, w skali od A („niedopuszczalnie”) do G („wybitnie”).</p><p>O nowej ocenie dam Ci znać powiadomieniem.</p><div class="fq-more"><p>Mentorzy wypełniają w BAZIE pełny arkusz oceny, a młodych sędziów oceniają w osobnym formularzu, w sezonie, w którym był mecz.</p></div></article>
+            <article class="fq" id="faq-bazus" data-short="Bazuś to AI?"><h4>Czy Bazuś to sztuczna inteligencja?</h4><p>W aplikacji tak. Odpowiadam na pytania o BAZĘ, ProEla, przepisy i regulaminy, tylko na podstawie tych dokumentów.</p><p>Wołasz mnie potrząśnięciem telefonu. Rozmów ze mną nie zapisujemy.</p><div class="fq-more"><p>Mam trzy tryby: BAZA, ProEl i przepisy z regulaminami. W każdym szukam odpowiedzi w swoich dokumentach, a nie w ogólnej wiedzy.</p><p>To, co wpiszesz, wysyłam do dostawcy modelu językowego tylko po to, żeby odpowiedzieć.</p></div></article>
+          </section>
+          <section class="faq-group" data-group="Bezpieczeństwo">
+            <h3>Bezpieczeństwo</h3>
+            <article class="fq" id="faq-haslo" data-short="Hasło"><h4>Czy BAZA zapisuje moje hasło do baza.zprp.pl?</h4><p>Hasło leży tylko w telefonie, w szyfrowanym magazynie systemu (Keychain albo Keystore).</p><p>Serwer używa go na chwilę, żeby wykonać operację w baza.zprp.pl, i go nie zapisuje.</p><div class="fq-more"><p>Przy logowaniu serwer łączy się z baza.zprp.pl szyfrowanym połączeniem i oddaje aplikacji tylko token sesji.</p><p>Przy zapisie dane logowania szyfruję dodatkowo kluczem publicznym RSA. Serwer odszyfrowuje je tylko na czas operacji.</p></div></article>
+            <article class="fq" id="faq-dane" data-short="Gdzie są moje mecze"><h4>Gdzie trzymane są dane pobrane z baza.zprp.pl?</h4><p>W pamięci Twojego telefonu.</p><p>Mecze, niedyspozycje i dane z konta ZPRP nie mają kopii na serwerze BAZY. Usuniesz aplikację, znikną razem z nią.</p><div class="fq-more"><p>Nie robię też w baza.zprp.pl niczego, czego sam nie zlecisz.</p></div></article>
+            <article class="fq" id="faq-serwer" data-short="Serwer BAZY"><h4>Co w takim razie jest na serwerze BAZY?</h4><p>Dane konta, protokoły ProEla, sprawy okręgu (obsady, rozliczenia, giełda, ogłoszenia) i ustawienia powiadomień.</p><p>Szczegóły, odbiorców i Twoje prawa opisuje <a href="/polityka-prywatnosci/">polityka prywatności</a>.</p><div class="fq-more"><p>Protokoły zostają jako dokumentacja rozgrywek. Usunięty protokół trafia do kosza na rok.</p><p>Dane konta kasujemy niezwłocznie po usunięciu konta, a z kopii zapasowych znikają do 30 dni.</p></div></article>
+            <article class="fq" id="faq-reklama" data-short="Reklamy i śledzenie"><h4>Czy jest tu reklama albo śledzenie?</h4><p>Nie. Żadnych reklam, zewnętrznej analityki ani sprzedaży danych.</p><p>Jedyny, kto Cię tu obserwuje, to ja. I to z sympatią.</p><div class="fq-more"><p>Liczę tylko własne, proste statystyki: liczbę uruchomień, ostatnie wejście i wersję aplikacji.</p></div></article>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ WSPARCIE ═══════════════════ -->
+    <section class="support curtain" id="support" data-accent="#E6CCB2" data-bazus="support" data-curtain="round" data-goal="Wsparcie">
+      <div class="support-card">
+        <div class="support-copy">
+          <p class="kicker">Wsparcie</p>
+          <h2 class="paint">Bez reklam i bez abonamentu</h2>
+          <p>Jeśli BAZA Ci pomaga, możesz wesprzeć jej rozwój na Patronite.</p>
+          <a class="btn btn-accent" href="https://patronite.pl/bazaapp" target="_blank" rel="noopener">Wesprzyj na Patronite</a>
+        </div>
+        <div class="support-widget" data-patronite></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ FINAŁ: pobierz ═══════════════════ -->
+    <section class="download curtain" id="download" data-accent="#E6CCB2" data-bazus="download" data-curtain="circle-center" data-goal="Pobierz">
+      <div class="dl-grid">
+        <div class="dl-phone"><div class="fly-slot" data-fly="download" aria-hidden="true"></div></div>
+        <div class="dl-copy">
+          <div class="download-logo" aria-hidden="true">
+            <picture>
+              <source srcset="/Grafiki/site/logo.webp" type="image/webp" />
+              <img src="/Grafiki/site/logo.png" alt="" width="512" height="512" loading="lazy" />
+            </picture>
+          </div>
+          <h2 class="paint">Wchodzisz do BAZY?</h2>
+          <p>Bezpłatnie na Androida i iOS. Logujesz się kontem z baza.zprp.pl.</p>
+          <div class="store-row store-row-center" data-stores>
+            <a class="store store-play" href="https://play.google.com/store/apps/details?id=com.radzio.RefHandballApp&amp;hl=pl" target="_blank" rel="noopener" data-store="android">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2.8l10.6 9.2L4 21.2c-.4-.2-.6-.6-.6-1.1V3.9c0-.5.2-.9.6-1.1z" fill="#34A853"/><path d="M18.3 15.2L14.6 12 4 21.2c.3.2.8.2 1.2 0z" fill="#EA4335"/><path d="M18.3 8.8L5.2 2.8c-.4-.2-.9-.2-1.2 0L14.6 12z" fill="#4285F4"/><path d="M21 10.6l-2.7-1.8-3.7 3.2 3.7 3.2 2.7-1.8c.8-.5.8-2.3 0-2.8z" fill="#FBBC04"/></svg>
+              <span><small>Pobierz z</small>Google Play</span>
+            </a>
+            <a class="store store-apple" href="https://apps.apple.com/pl/app/baza-app/id6751402205?l=pl" target="_blank" rel="noopener" data-store="ios">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9s-1.8-.8-3-.8c-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.6s-2.5-1-2.5-3.7zM14.1 5.6c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.7-1.3z"/></svg>
+              <span><small>Pobierz w</small>App Store</span>
+            </a>
+          </div>
+        </div>
+        <figure class="qr">
+          <div class="qr-frame">
+            <img src="/Grafiki/site/qr.svg" alt="Kod QR do pobrania BAZY" width="260" height="260" loading="lazy" />
+            <span class="qr-scan" aria-hidden="true"></span>
+            <span class="qr-corner c1"></span><span class="qr-corner c2"></span><span class="qr-corner c3"></span><span class="qr-corner c4"></span>
+          </div>
+          <figcaption><b>Zeskanuj telefonem</b>Aparat otworzy sklep z BAZĄ</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════ STOPKA ═══════════════════ -->
+  <footer class="footer" id="legal">
+    <div class="footer-top">
+      <a class="brand" href="#top"><img src="/Grafiki/site/logo-256.webp" alt="" width="40" height="40" /><span>BAZA</span></a>
+      <p>Niezbędnik sędziego piłki ręcznej.</p>
+    </div>
+    <nav class="footer-links" aria-label="Dokumenty i kontakt">
+      <a href="/warunki-uzytkowania/">Warunki użytkowania</a>
+      <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+      <a href="/beach.html">BAZA Beach</a>
+      <a href="mailto:radoslawwitkowicz@catchapp.com.pl">radoslawwitkowicz@catchapp.com.pl</a>
+      <a href="tel:+48662471178">+48 662 471 178</a>
+    </nav>
+    <a class="publisher" href="https://www.catchapp.com.pl" target="_blank" rel="noopener">
+      <img src="/Grafiki/legal/catchapp_c.png" alt="" width="36" height="36" />
+      <span><small>Twórca i wydawca</small><b>Catch App</b> · Radosław Witkowicz · NIP 2220935509</span>
+    </a>
+    <p class="footer-copy">© 2025-2026 Catch App. BAZA nie jest aplikacją Związku Piłki Ręcznej w Polsce.</p>
+  </footer>
+
+  <!-- ═══ BAZUŚ: przewodnik po stronie ═══ -->
+  <div class="guide" id="guide" aria-live="polite">
+    <p class="guide-bubble"></p>
+    <button class="guide-bazus" type="button" aria-label="Bazuś - stuknij, a coś Ci powie">
+      <picture>
+        <source srcset="/Grafiki/site/bazus_small.webp" type="image/webp" />
+        <img src="/Grafiki/site/bazus_small.png" alt="" width="256" height="256" loading="lazy" />
+      </picture>
+    </button>
+  </div>
+
+  <script src="/site/site.js?v=20261002g" defer></script>
+  <script type="module" src="/site/island.js?v=20261002g"></script>
+</body>
+</html>

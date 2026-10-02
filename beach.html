@@ -1,0 +1,837 @@
+﻿<!DOCTYPE html>
+<html lang="pl" class="theme-dark">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Stare linki (#privacyModal, #termsModal) prowadzą teraz do osobnych dokumentów BAZA Beach.
+    (function () {
+      var map = { "#privacyModal": "/beach/polityka-prywatnosci/", "#termsModal": "/beach/warunki-uzytkowania/" };
+      function go() { var t = map[location.hash]; if (t) location.replace(t); }
+      go();
+      window.addEventListener("hashchange", go);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BAZA Beach - Rewolucja na plaży</title>
+  <link rel="icon" href="Grafiki/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20261001">
+  <link rel="stylesheet" href="beach.css?v=20261001">
+</head>
+<body>
+
+  <div class="scroll-progress" id="scrollProgress"></div>
+<!-- NAV -->
+  <div class="nav" id="siteNav" aria-label="Główne menu">
+    <div class="container nav-inner">
+      <div class="brand">
+        <img src="Grafiki/baza_beach.png" alt="BAZA Beach" />
+        <strong>BAZA Beach</strong>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-back-link">← BAZA</a>
+        <a href="#features" class="nav-link-item">Funkcje</a>
+        <a href="#gallery" class="nav-link-item">Galeria</a>
+        <a href="#faq" class="nav-link-item">FAQ</a>
+        <a href="#download" class="btn-cta" id="pobierz">Pobierz</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════ -->
+  <section class="hero-beach" id="heroBeach">
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+    <div class="hblob hblob-1"></div>
+    <div class="hblob hblob-2"></div>
+    <div class="hblob hblob-3"></div>
+
+    <div class="hero-beach-inner container">
+      <div class="hero-beach-text">
+        <div class="hero-badge anim-hero anim-d1">
+          <span class="hero-badge-pulse"></span>
+          ☀️ Piłka ręczna plażowa
+        </div>
+        <h1 class="hero-beach-title">
+          <span class="title-line title-gold anim-hero anim-d3">Rewolucja</span>
+          <span class="title-line anim-hero anim-d2">na plaży!</span>
+        </h1>
+        <p class="hero-beach-sub anim-hero anim-d4">
+          Turnieje, protokół LIVE, obsady, wyniki, przepisy — jedno narzędzie dla każdej roli. Gotowe na każdy turniej plażowy.
+        </p>
+        <div class="hero-roles anim-hero anim-d5">
+          <span class="role-chip">⚖️ Sędzia</span>
+          <span class="role-chip">🏋️ Trener</span>
+          <span class="role-chip">🏐 Zawodnik</span>
+          <span class="role-chip">🎯 Organizator</span>
+        </div>
+        <div class="hero-cta anim-hero anim-d6">
+          <button id="ctaDownload" class="btn btn-primary">
+            <img src="Grafiki/download.png" alt="" style="width:18px;height:18px"> Pobierz BAZĘ Beach
+          </button>
+          <a href="#features" class="btn btn-ghost" style="text-decoration:none">Odkryj funkcje ↓</a>
+        </div>
+      </div>
+
+      <div class="hero-phones-wrap anim-hero anim-d3">
+        <div class="phone-hero phone-hero-main">
+          <div class="phone-body">
+            <div class="phone-notch"></div>
+            <img src="Grafiki/screeny/szczegoly.jpg" alt="BAZA Beach — o aplikacji" class="phone-img" id="heroPhoneImg">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="phone-glow-aura"></div>
+        </div>
+        <div class="phone-hero phone-hero-side phone-side-left">
+          <div class="phone-body phone-body-sm">
+            <img src="Grafiki/screeny/home.jpg" alt="Home" class="phone-img">
+          </div>
+        </div>
+        <div class="phone-hero phone-hero-side phone-side-right">
+          <div class="phone-body phone-body-sm">
+            <img src="Grafiki/screeny/przepisy.jpg" alt="Przepisy" class="phone-img">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint" id="heroScrollHint">
+      <span>scroll</span>
+      <div class="scroll-chevron"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       STATS BAR
+  ═══════════════════════════════════════════════════════ -->
+  <div class="stats-bar">
+    <div class="container stats-inner">
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="1">0</span>
+        <span class="stat-label">sezon działania</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item reveal">
+        <span class="stat-num" id="active-users-count" data-target="300">0</span><span class="stat-plus">+</span>
+        <span class="stat-label">aktywnych użytkowników</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="4">0</span>
+        <span class="stat-label">role użytkowników</span>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="2">0</span>
+        <span class="stat-label">platformy (iOS + Android)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       VIDEO SHOWCASE
+  ═══════════════════════════════════════════════════════ -->
+  <section class="video-showcase" aria-label="Film promocyjny BAZA Beach">
+    <div class="video-showcase-inner">
+      <div class="video-copy reveal">
+        <span class="section-eyebrow">BAZA Beach w ruchu</span>
+        <h2>Usiądź wygodnie i zobacz</h2>
+      </div>
+
+      <div class="video-frame reveal">
+        <video
+          class="beach-promo-video"
+          src="Filmy/BAZA Beach - Rewolucja na plaży.mp4"
+          autoplay
+          loop
+          controls
+          playsinline
+          preload="metadata"
+        ></video>
+        <div class="video-frame-glow" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PAIN → SOLUTION (6 flip kart, 3×2)
+  ═══════════════════════════════════════════════════════ -->
+  <section class="pain-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">Koniec ze starymi metodami</span>
+        <h2>Czy to brzmi znajomo?</h2>
+        <p>Przesuń lub najedź na kartę — po drugiej stronie BAZA Beach.</p>
+      </div>
+
+      <div class="pain-grid pain-grid-6">
+
+        <!-- 1 -->
+        <div class="pain-card reveal" tabindex="0" role="button">
+          <div class="pain-inner">
+            <div class="pain-front">
+              <div class="pain-emoji">📄</div>
+              <h3>Papierowe protokoły</h3>
+              <p>Drukujesz przed każdym meczem, piszesz ręcznie w słońcu, weź to na końcu jeszcze policz kto ile rzucił - o ile Ci kartka nie odfrunęła z wiatrem...</p>
+              <div class="pain-flip-hint">Dotknij ↗</div>
+            </div>
+            <div class="pain-back">
+              <div class="pain-logo">ProEl</div>
+              <h3>Protokół w telefonie</h3>
+              <p>Pełny przebieg meczu od wczytania składów i zebrania podpisów, po wygenerowanie gotowego pliku PDF - zero papieru, intuicyjny interfejs i pełna kontrola nad meczem.</p>
+              <span class="pain-tag">ProEl - Pierwszy protokół elektroniczny w Polsce</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="pain-card reveal" tabindex="0" role="button">
+          <div class="pain-inner">
+            <div class="pain-front">
+              <div class="pain-emoji">📊</div>
+              <h3>Tabelki i terminarze w Excelu</h3>
+              <p>Ręcznie robisz terminarz, wpisujesz wyniki, generujesz PDF... i zaczynasz od nowa przy każdej zmianie. Ach no i trzebaby jeszcze naszykować protokoły, co nie?</p>
+              <div class="pain-flip-hint">Dotknij ↗</div>
+            </div>
+            <div class="pain-back">
+              <div class="pain-emoji">⚡</div>
+              <h3>Generuj jednym kliknięciem</h3>
+              <p>Terminarz, protokoły, komunikat końcowy — BAZA Beach generuje dokumenty automatycznie na podstawie wprowadzonych danych. Pobierz albo wyślij mailem - to już Twoja decyzja.</p>
+              <span class="pain-tag">Nigdy nie było prościej</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="pain-card reveal" tabindex="0" role="button">
+          <div class="pain-inner">
+            <div class="pain-front">
+              <div class="pain-emoji">🌐</div>
+              <h3>Chaos informacyjny</h3>
+              <p>Lokalizacja na Mapach, terminarz w PDF, ogłoszenia na Facebooku, obsada na Messengerze. Pięć różnych miejsc dla jednego turnieju...</p>
+              <div class="pain-flip-hint">Dotknij ↗</div>
+            </div>
+            <div class="pain-back">
+              <div class="pain-emoji">🏖️</div>
+              <h3>Wszystko w jednej apce</h3>
+              <p>Mapa boiska, terminarz, wyniki, obsady, ogłoszenia, transmisja — jeden ekran, jedno miejsce, zero szukania.</p>
+              <span class="pain-tag">Cały turniej w kieszeni</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="pain-card reveal" tabindex="0" role="button">
+          <div class="pain-inner">
+            <div class="pain-front">
+              <div class="pain-emoji">📅</div>
+              <h3>Rozrzucone turnieje</h3>
+              <p>Jako sędzia, trener czy zawodnik — Twoje mecze są porozrzucane po mailach, SMS-ach i zakładkach przeglądarki. Ciężko to ogarnąć, prawda?</p>
+              <div class="pain-flip-hint">Dotknij ↗</div>
+            </div>
+            <div class="pain-back">
+              <div class="pain-emoji">🗓️</div>
+              <h3>Twój kalendarz rozgrywek</h3>
+              <p>Wszystkie Twoje nadchodzące mecze, turnieje i obsady w jednym kalendarzu - nie musisz się już martwić. Aplikacja sama przypomni Ci o każdym z odpowiednim wyprzedzeniem.</p>
+              <span class="pain-tag">Mój kalendarz i turnieje</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="pain-card reveal" tabindex="0" role="button">
+          <div class="pain-inner">
+            <div class="pain-front">
+              <div class="pain-emoji">📱</div>
+              <h3>Pytasz i szukasz</h3>
+              <p>Zmieniła się godzina meczu? Inne boisko? Pytasz organizatora, dzwonisz do kolegi, scrollujesz grupę na Messengerze, a może prowadzisz oblężenie na biuro zawodów i sędziego głównego, który tonie w papierach?</p>
+              <div class="pain-flip-hint">Dotknij ↗</div>
+            </div>
+            <div class="pain-back">
+              <div class="pain-emoji">🔔</div>
+              <h3>Turniej masz w kieszeni</h3>
+              <p>Zmiana godziny, nowa obsada, aktualizacja turnieju, kolejny mecz — dostajesz powiadomienie push. Zero szukania, zero pytania. Usiądź w cieniu i po prostu ciesz się turniejem.</p>
+              <span class="pain-tag">Pełny obieg turnieju i powiadomienia push</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="pain-card reveal" tabindex="0" role="button">
+          <div class="pain-inner">
+            <div class="pain-front">
+              <div class="pain-emoji">📵</div>
+              <h3>Oj...coś... prze...wa, nie sł...ać</h3>
+              <p>Boisko przy morzu, brak zasięgu — strona nie ładuje, przepisy niedostępne, terminarz się nie otwiera. No to co, biegamy i szukamy informacji?</p>
+              <div class="pain-flip-hint">Dotknij ↗</div>
+            </div>
+            <div class="pain-back">
+              <div class="pain-emoji">⚡</div>
+              <h3>BAZA Beach pamięta też offline</h3>
+              <p>Przepisy, protokół i dane turniejów działają również bez zasięgu. Choć działa z myślą online-first, to nie daje się zaskoczyć gdy brakuje zasięgu i pokazuje ostatnio pobrane dane - więc jesteś PRAWIE na bieżąco.</p>
+              <span class="pain-tag">Online first -> offline second</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FEATURES - kompaktowa karuzela
+  ═══════════════════════════════════════════════════════ -->
+  <section id="features">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">Co oferuje BAZA Beach?</span>
+        <h2>Kluczowe funkcje</h2>
+        <p>Wszystko czego potrzebujesz na turnieju i poza nim — w jednej aplikacji.</p>
+      </div>
+
+      <div class="features-carousel-shell reveal" aria-label="Karuzela kluczowych funkcji">
+        <div class="features-grid features-grid-11 features-carousel" id="featuresCarousel" tabindex="0">
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/turnieje.png" class="icon" alt="Turnieje">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Turnieje</h3>
+          <p>Lista Twoich turniejów i pełny kalendarz rozgrywek w kieszeni</p>
+          <div class="feat-tag">⚡ LIVE</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/przepisy.png" class="icon" alt="Przepisy">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Przepisy</h3>
+          <p>Pełne przepisy IHF/EHF i wytyczne sędziowskie z podziałem na rozdziały. Przeszukiwalne. Offline.</p>
+          <div class="feat-tag">📖 Offline</div>
+        </div>
+
+        <div class="card feat-card feat-card-proel reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/PROEL.png" class="icon" alt="ProEl">
+            <div class="feat-icon-ring ring-red"></div>
+            <div class="feat-proel-pulse"></div>
+          </div>
+          <h3>ProEl — protokół LIVE</h3>
+          <p>Kompletny elektroniczny protokół meczu. Timer, sety, wykluczenia, podpis cyfrowy, generowanie PDF.</p>
+          <div class="feat-tag feat-tag-live">🔴 Na żywo</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/live.png" class="icon" alt="Wyniki LIVE">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Podgląd LIVE wyników</h3>
+          <p>Bieżące wyniki meczów w czasie rzeczywistym — śledź aktualny turniej z dowolnego miejsca.</p>
+          <div class="feat-tag">📊 Real-time</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/informacje.png" class="icon" alt="Info turnieju">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Informacje o turnieju</h3>
+          <p>Lokalizacja, regulamin, obsada, harmonogram — wszystkie informacje o turnieju w kieszeni.</p>
+          <div class="feat-tag">📍 Wszystko tu</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/kalendarz.png" class="icon" alt="Kalendarz">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Kalendarz rozgrywek</h3>
+          <p>Pełny kalendarz sezonowy — Twoje nadchodzące mecze, turnieje i obsady w jednym widoku.</p>
+          <div class="feat-tag">🗓 Sezon</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/dokumenty.png" class="icon" alt="Dokumenty">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Dokumenty</h3>
+          <p>Terminarz, protokoły meczowe, komunikat końcowy — generowane jednym kliknięciem!</p>
+          <div class="feat-tag">📄 1 klik</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/zprp.png" class="icon" alt="Składy ZPRP">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Składy z ZPRP</h3>
+          <p>Automatyczne wczytywanie zespołów, list i badań bezpośrednio z systemu ZPRP.</p>
+          <div class="feat-tag">🔗 Auto-import</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/przygotowanie.png" class="icon" alt="Przygotowanie turnieju">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Przygotowanie turnieju</h3>
+          <p>Tworzenie terminarza, podział na grupy, konfiguracja boisk i kategorii wiekowych — w kilku krokach.</p>
+          <div class="feat-tag">⚙️ Admin i Gospodarz</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/obsady.png" class="icon" alt="Obsady">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Obsady sędziów</h3>
+          <p>Kalendarz dyspozycyjności sędziów i gotowe obsady sędziowskie z powiadomieniami push.</p>
+          <div class="feat-tag">🔔 Push</div>
+        </div>
+
+        <div class="card feat-card reveal tilt">
+          <div class="halo"></div>
+          <div class="feat-icon-wrap">
+            <img src="Grafiki/ikony/wyniki.png" class="icon" alt="Tabele">
+            <div class="feat-icon-ring"></div>
+          </div>
+          <h3>Tabele i wyniki</h3>
+          <p>Tabele per turniej i per kategoria wiekowa na cały sezon — pełny obraz rozgrywek plażowych.</p>
+          <div class="feat-tag">🏆 Sezon</div>
+        </div>
+
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       GALLERY — Phone strip
+  ═══════════════════════════════════════════════════════ -->
+  <section id="gallery" class="gallery-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">BAZA Beach w akcji</span>
+        <h2>Poznaj BAZĘ Beach!</h2>
+        <p>Sprawdź jak wygląda BAZA Beach od środka.</p>
+      </div>
+    </div>
+
+    <div class="phone-strip-outer" id="phoneStripOuter">
+      <div class="phone-strip" id="phoneStrip">
+        <div class="strip-phone"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/1.png" alt="Splash screen"></div></div>
+        <div class="strip-phone"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/2.png" alt="Turnieje"></div></div>
+        <div class="strip-phone"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/3.png" alt="Mecz LIVE"></div></div>
+        <div class="strip-phone"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/4.png" alt="ProEl protokół"></div></div>
+        <div class="strip-phone"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/5.png" alt="Przepisy"></div></div>
+        <div class="strip-phone"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/6.png" alt="O aplikacji"></div></div>
+        <div class="strip-phone" aria-hidden="true"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/1.png" alt=""></div></div>
+        <div class="strip-phone" aria-hidden="true"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/2.png" alt=""></div></div>
+        <div class="strip-phone" aria-hidden="true"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/3.png" alt=""></div></div>
+        <div class="strip-phone" aria-hidden="true"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/4.png" alt=""></div></div>
+        <div class="strip-phone" aria-hidden="true"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/5.png" alt=""></div></div>
+        <div class="strip-phone" aria-hidden="true"><div class="strip-phone-body"><img src="Grafiki/beach_ekrany/6.png" alt=""></div></div>
+      </div>
+    </div>
+
+    <div class="strip-labels container">
+      <span>☀️ Splash</span>
+      <span>🏆 Turnieje</span>
+      <span>⚽ Mecz LIVE</span>
+      <span>📋 ProEl</span>
+      <span>📖 Przepisy</span>
+      <span>ℹ️ O aplikacji</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PROEL SPOTLIGHT
+  ═══════════════════════════════════════════════════════ -->
+  <section class="proel-section">
+    <div class="container proel-grid">
+
+      <div class="proel-visual reveal">
+        <div class="proel-phone-wrap">
+          <div class="phone-body proel-phone-body">
+            <div class="phone-notch"></div>
+            <img src="Grafiki/screeny/proel.jpg" alt="ProEl protokół LIVE" class="phone-img">
+            <div class="phone-home-bar"></div>
+          </div>
+          <div class="proel-glow-ring"></div>
+          <div class="proel-badge-float">🔴 LIVE</div>
+        </div>
+      </div>
+
+      <div class="proel-text reveal">
+        <span class="section-eyebrow">Protokół elektroniczny</span>
+        <div class="proel-pl-badge">🇵🇱 PIERWSZY W POLSCE</div>
+        <h2>ProEl — serce<br>każdego meczu</h2>
+        <p class="proel-desc">Zapomnij o papierze. ProEl to pierwszy w Polsce kompletny protokół elektroniczny stworzony pod specyfikę piłki ręcznej plażowej — cały mecz w Twojej kieszeni!</p>
+        <ul class="proel-features">
+          <li><span class="pf-check">✓</span> Automatyczne wczytywanie składów</li>
+          <li><span class="pf-check">✓</span> Podpisy z poziomu telefonu trenera</li>
+          <li><span class="pf-check">✓</span> Pełny przebieg i historia meczu</li>
+          <li><span class="pf-check">✓</span> Intuicyjny i wygodny interfejs</li>
+          <li><span class="pf-check">✓</span> Dbałość o zgodność z przepisami gry</li>
+          <li><span class="pf-check">✓</span> Generowanie protokołu PDF</li>
+        </ul>
+        <div class="proel-cta-wrap">
+          <a href="#download" class="btn btn-primary proel-cta-btn" style="text-decoration:none;display:inline-flex">
+            Pobierz i wypróbuj →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROADMAP
+  ═══════════════════════════════════════════════════════ -->
+  <section class="roadmap-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">Co nadchodzi?</span>
+        <h2>Roadmap</h2>
+        <p>BAZA Beach ciągle rośnie. Oto co planujemy.</p>
+      </div>
+
+      <div class="roadmap-track">
+        <div class="roadmap-spine"></div>
+
+        <div class="rm-item rm-left reveal">
+          <div class="rm-dot rm-dot-done">✓</div>
+          <div class="rm-card">
+            <div class="rm-status rm-done">✅ Dostępne teraz</div>
+            <h3>ProEl + Turnieje + Przepisy</h3>
+            <p>Kompletna aplikacja dla sędziów, trenerów i zawodników. Dostępna na iOS i Android — pobierz i zacznij już dziś.</p>
+          </div>
+        </div>
+
+        <div class="rm-item rm-right reveal">
+          <div class="rm-dot rm-dot-soon">👁</div>
+          <div class="rm-card">
+            <div class="rm-status rm-soon">🔜 Wkrótce</div>
+            <h3>Kibice — wyniki LIVE</h3>
+            <p>Widok publiczny bez logowania — śledź turnieje plażowe w czasie rzeczywistym z dowolnego urządzenia, gdziekolwiek jesteś.</p>
+          </div>
+        </div>
+
+        <div class="rm-item rm-left reveal">
+          <div class="rm-dot rm-dot-planned">📱</div>
+          <div class="rm-card">
+            <div class="rm-status rm-planned">📋 Planowane</div>
+            <h3>Wersja na tablet / iPad</h3>
+            <p>Zoptymalizowany layout dla tabletów — idealny dla delegatów i organizatorów obsługujących turniej z dużym ekranem.</p>
+          </div>
+        </div>
+
+        <div class="rm-item rm-right reveal">
+          <div class="rm-dot rm-dot-dream">✨</div>
+          <div class="rm-card rm-card-dream">
+            <div class="rm-status rm-dream">🌟 Wizja</div>
+            <h3>Zacieramy granice tego co niemożliwe</h3>
+            <p>Beach handball zasługuje na narzędzia klasy światowej. Ogranicza nas tylko wyobraźnia — a tej nam nie brakuje.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       DOWNLOAD
+  ═══════════════════════════════════════════════════════ -->
+  <section id="download" class="download-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">Pobierz teraz</span>
+        <h2>BAZA Beach w kieszeni</h2>
+        <p>Dostępna na Android i iOS. Zainstaluj i wejdź w swój pierwszy sezon z BAZA Beach.</p>
+      </div>
+
+      <div class="store-buttons-wrap reveal">
+        <a id="downloadAndroid"
+           class="store-btn store-btn-android"
+           href="https://play.google.com/store/apps/details?id=com.radzio.bazabeach&hl=pl&gl=PL"
+           target="_blank" rel="noopener noreferrer">
+          <div class="store-btn-icon-wrap store-icon-android">
+            <img src="Grafiki/android.png" alt="Android" class="store-os-img">
+          </div>
+          <div class="store-btn-text">
+            <span class="store-btn-sub">Pobierz z</span>
+            <span class="store-btn-name">Google Play</span>
+          </div>
+          <div class="store-btn-arrow">→</div>
+        </a>
+
+        <a id="downloadIOS"
+           class="store-btn store-btn-ios"
+           href="https://apps.apple.com/us/app/id6764278536"
+           target="_blank" rel="noopener noreferrer">
+          <div class="store-btn-icon-wrap store-icon-ios">
+            <img src="Grafiki/ios.png" alt="iOS" class="store-os-img">
+          </div>
+          <div class="store-btn-text">
+            <span class="store-btn-sub">Pobierz z</span>
+            <span class="store-btn-name">App Store</span>
+          </div>
+          <div class="store-btn-arrow">→</div>
+        </a>
+      </div>
+
+      <div class="download-phones-preview reveal">
+        <div class="dl-phone-mini">
+          <div class="phone-body phone-body-sm">
+            <img src="Grafiki/screeny/drabinki.jpg" alt="Wyniki" class="phone-img">
+          </div>
+        </div>
+        <div class="dl-phone-mini dl-phone-center">
+          <div class="phone-body phone-body-sm">
+            <img src="Grafiki/screeny/turnieje.jpg" alt="Turnieje" class="phone-img">
+          </div>
+        </div>
+        <div class="dl-phone-mini">
+          <div class="phone-body phone-body-sm">
+            <img src="Grafiki/screeny/shootout.jpg" alt="ProEl shootout" class="phone-img">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FAQ
+  ═══════════════════════════════════════════════════════ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">Pytania i odpowiedzi</span>
+        <h2>FAQ – o BAZA Beach</h2>
+        <p>Najczęstsze pytania o aplikację i bezpieczeństwo Twoich danych.</p>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-column">
+          <p class="faq-column-title">Ogólne</p>
+          <div class="faq-list">
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Czym jest BAZA Beach?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>BAZA Beach to aplikacja dla wszystkich uczestników rozgrywek piłki ręcznej plażowej — sędziów, trenerów, zawodników, a docelowo i kibiców. Łączy terminarze turniejów, obsady sędziowskie, wyniki, tabele, protokół elektroniczny i aktualne przepisy — w jednym miejscu.</p>
+              </div></div>
+            </div>
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Czy BAZA Beach jest powiązana z oficjalnym systemem ZPRP?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>BAZA Beach to niezależne narzędzie działające samodzielnie, ale z możliwością importu danych z systemu ZPRP (składy, zespoły). Działa sprawnie nawet w warunkach plażowych z ograniczonym lub zerowym zasięgiem.</p>
+              </div></div>
+            </div>
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Na jakich urządzeniach działa BAZA Beach?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>BAZA Beach działa na telefonach z Androidem i iOS. Aplikację pobierzesz z Google Play lub App Store — przyciski do sklepów znajdziesz w sekcji „Pobierz aplikację" powyżej.</p>
+              </div></div>
+            </div>
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Czy aplikacja działa offline?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>Tak — większość funkcji, w tym przepisy, protokół elektroniczny i dostęp do zapisanych danych turniejów, działa bez aktywnego połączenia z internetem. BAZA Beach jest aplikacją online-first i większość funkcji wymaga połączenia w celu zapewenienia najlepszej jakości, jednak offline znajdziesz również to co potrzebujesz - pobrane i zapisane gdy ostatnio byłeś/aś online 😉</p>
+              </div></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="faq-column">
+          <p class="faq-column-title">Bezpieczeństwo danych</p>
+          <div class="faq-list">
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Jakie dane przechowuje BAZA Beach?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>BAZA Beach przechowuje wyłącznie dane niezbędne do działania — wyniki turniejów, obsady sędziowskie, dane protokołu i ustawienia. Twoje dane osobowe przechowywane są tylko na Twoje życzenie jeśli chcesz ułatwić innym użytkownikom skontaktowanie się z Tobą.</p>
+              </div></div>
+            </div>
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Czy moje dane są wysyłane na zewnętrzny serwer?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>Dane związane z dostępem do konta są odpowiednio szyfrowane i przechowywane w bazie danych w formie niezrozumiałej dla człowieka. Dane dotyczące turnieju i najnowsze aktualizacje w podobny sposób. Zabezpieczone są dostępem na podstawie odpowiedniej roli użytkownika, aby uniemożliwić dostęp osobom postronnym.</p>
+              </div></div>
+            </div>
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Protokół elektroniczny - a co to?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>To innowacyjny, pierwszy w Polsce moduł pozwalający na prowadzenie pełnej rejestracji meczu z poziomu telefonu. Od podpisu trenera po protokół PDF wszystko za pomocą kilku prostych kliknięć. A dla pozostałych uczestników turnieju wynik LIVE dostępny jest na wyciągnięcie ręki.</p>
+              </div></div>
+            </div>
+
+            <div class="faq-item reveal">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span class="faq-question-label">Jak mogę usunąć swoje dane z aplikacji?</span>
+                <span class="faq-chevron" aria-hidden="true"></span>
+              </button>
+              <div class="faq-body"><div class="faq-body-inner">
+                <p>Dane możesz usunąć w dowolnej chwili z poziomu Ustawień aplikacji. Przechowane wtedy zostaną jedynie Twoje statystyki ale opisane jako DEZAKTYWOWANY UŻYTKOWNIK bez jakichkolwiek danych osobowych.</p>
+              </div></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SUPPORT
+  ═══════════════════════════════════════════════════════ -->
+  <section id="support" class="support">
+    <div class="container panel">
+      <div class="reveal support-text-col">
+        <h2 class="mt-0" style="color:var(--c-h-text);font-size:clamp(22px,4vw,36px);">Budujmy razem BAZA Beach!</h2>
+        <p class="muted" style="font-size:clamp(15px,2.2vw,18px);max-width:60ch;">
+          Jeśli BAZA Beach pomaga Ci na plaży — czy jesteś sędzią, trenerem czy zawodnikiem — możesz postawić mi kawę ☕.
+          To realne wsparcie rozwoju nowych funkcji i całonocnych sesji programowania.
+        </p>
+        <div class="support-patronite-center">
+          <iframe src="https://patronite.pl/widget/bazaapp/797249/small/dark/colorful?description=Bo%20tylko%20razem%20mo%C5%BCemy%20budowa%C4%87%20BAZ%C4%98!&buttonText=Wesprzyj" width="360" height="330" frameborder="0" scrolling="no"></iframe>
+        </div>
+      </div>
+      <div class="reveal center">
+        <img src="Grafiki/coffee.png" class="coffee" alt="Kup mi kawę">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LEGAL
+  ═══════════════════════════════════════════════════════ -->
+  <section id="legal" class="legal-section-v2">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">Dokumentacja prawna</span>
+        <h2>Informacje prawne</h2>
+        <p>Kilka drobiazgów związanych z bezpieczeństwem Twoich danych</p>
+      </div>
+      <div class="lcn-grid">
+
+        <div class="lcn-card lcn-terms reveal">
+          <div class="lcn-accent-bar"></div>
+          <div class="lcn-body">
+            <div class="lcn-icon-wrap">
+              <img src="Grafiki/icon_file.png" alt="Warunki użytkowania">
+              <div class="lcn-icon-glow"></div>
+            </div>
+            <div class="lcn-content">
+              <div class="lcn-meta-row">
+                <span class="lcn-tag">§ ToS</span>
+                <span class="lcn-chip">16 sekcji</span>
+                <span class="lcn-chip">~8 min</span>
+              </div>
+              <h3 class="lcn-title">Warunki użytkowania</h3>
+              <p class="lcn-desc">Zasady korzystania z BAZA Beach: konto i role, turnieje, protokoły, rozliczenia i odpowiedzialność.</p>
+              <a href="/beach/warunki-uzytkowania/" class="lcn-btn">
+                Otwórz dokument <span class="lcn-btn-arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="lcn-card lcn-privacy reveal">
+          <div class="lcn-accent-bar lcn-accent-shield"></div>
+          <div class="lcn-body">
+            <div class="lcn-icon-wrap lcn-icon-shield">
+              <img src="Grafiki/icon_shield.png" alt="Polityka prywatności">
+              <div class="lcn-icon-glow lcn-glow-shield"></div>
+            </div>
+            <div class="lcn-content">
+              <div class="lcn-meta-row">
+                <span class="lcn-tag lcn-tag-shield">🔒 RODO</span>
+                <span class="lcn-chip">15 sekcji</span>
+                <span class="lcn-chip">~9 min</span>
+              </div>
+              <h3 class="lcn-title">Polityka prywatności</h3>
+              <p class="lcn-desc">Jakie dane przetwarzamy, po co, komu je powierzamy, jak długo je trzymamy i jakie masz prawa.</p>
+              <a href="/beach/polityka-prywatnosci/" class="lcn-btn lcn-btn-shield">
+                Otwórz dokument <span class="lcn-btn-arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <img src="Grafiki/baza_beach.png" alt="BAZA Beach Logo" class="footer-logo" style="width:80px;margin:0 auto 6px;border-radius:18px;" />
+      <p class="muted">BAZA Beach – dla sędziów, trenerów i zawodników piłki ręcznej plażowej.</p>
+      <p class="muted">© 2025-2026 <a href="https://www.catchapp.com.pl" target="_blank" rel="noopener" style="color:var(--c-h-text);text-decoration:none;">Catch App</a> · NIP 2220935509. Wszelkie prawa zastrzeżone.</p>
+      <nav class="legal-links" style="margin:10px 0 6px;">
+        <a href="/beach/warunki-uzytkowania/">Warunki użytkowania</a>
+        <a href="/beach/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="index.html" style="color:#e6ccb2;text-decoration:none;font-weight:700;">← Wróć do BAZA</a>
+      </nav>
+      <p class="muted">
+        <a href="mailto:radoslawwitkowicz@catchapp.com.pl" style="color:var(--c-h-text);text-decoration:none;">radoslawwitkowicz@catchapp.com.pl</a>
+        &nbsp;|&nbsp;
+        <a href="tel:+48662471178" style="color:var(--c-h-text);text-decoration:none;">+48 662 471 178</a>
+      </p>
+    </div>
+  </footer>
+
+  <div id="toastContainer"></div>
+  <button id="btnDownloadBAZA" class="fixed-btn download-btn" role="button" aria-label="Przejdź do pobierania">Pobierz BAZĘ Beach</button>
+  <button id="btnScrollTop" class="fixed-btn top-btn" aria-label="Wróć do góry">
+    <img src="Grafiki/top.png" alt="Powrót na górę" class="top-img"/>
+  </button>
+
+  <script src="beach_script.js?v=20261001"></script>
+</body>
+</html>
