@@ -1,0 +1,4 @@
+# Stare wersje aplikacji BAZA otwieraja /pod-reka/... - BAZA pod Reka mieszka teraz na bazapodreka.app
+RewriteEngine On
+RewriteRule ^pod-reka/?$ https://www.bazapodreka.app/ [R=308,L]
+RewriteRule ^pod-reka/(.+)$ https://www.bazapodreka.app/$1 [R=308,L]
