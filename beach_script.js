@@ -114,7 +114,7 @@ document.querySelectorAll('.stat-num[data-target]').forEach(el => counterIO.obse
 (function fetchActiveUsers() {
   const activeEl = document.getElementById('active-users-count');
   if (!activeEl) return;
-  fetch('https://zprp-backend-production.up.railway.app/beach/users/public-stats')
+  fetch('https://zprp-backend-production.up.railway.app/beach/users/public-stats', { headers: { 'X-Baza-Key': 'XrQtTEfGi6XkfbG15iiV4YAx6Gyc8AY6zb7m2EHo' } })
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(data => {
       const n = parseInt(data.active_users, 10);

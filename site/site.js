@@ -58,6 +58,8 @@
   function geoTop(el) { return rectOf(el).top + window.scrollY; }
   var V = "20261002g";
   var API = "https://zprp-backend-production.up.railway.app/public/baza-stats";
+  // Klucz strony produktu dla serwera BAZA (jawny z natury: otwiera tylko publiczne sumy).
+  var BAZA_KEY = "XrQtTEfGi6XkfbG15iiV4YAx6Gyc8AY6zb7m2EHo";
   var vib = function (ms) { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) { /* brak wibracji */ } };
 
   /* ───────────────────────────── kolory ───────────────────────────── */
@@ -212,7 +214,7 @@
 
     var ctrl = "AbortController" in window ? new AbortController() : null;
     var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 5000);
-    fetch(API, { signal: ctrl ? ctrl.signal : undefined, cache: "no-store" })
+    fetch(API, { signal: ctrl ? ctrl.signal : undefined, cache: "no-store", headers: { "X-Baza-Key": BAZA_KEY } })
       .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (d) {
         clearTimeout(timer);
